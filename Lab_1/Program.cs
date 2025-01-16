@@ -58,6 +58,7 @@ internal class Program
         Console.WriteLine("\nExpression for Gantt Chart --> {0}", checkedExpression);
         GanttChart.CreateChart(tree.OperationTree(), true);
 
+        //_______________ Lab 6 _______________
         tokenizer.TokenizeExpandedExpression(expr);
         tree.CreateTree(tokenizer.Tokens);
         Console.WriteLine("\nAssociative Law for Gantt Chart --> {0}", expr);
