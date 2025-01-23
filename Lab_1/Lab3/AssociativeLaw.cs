@@ -1,4 +1,7 @@
-﻿namespace Lab_1
+﻿using Lab1;
+using Lab2;
+
+namespace Lab3
 {
     internal enum StepType
     {

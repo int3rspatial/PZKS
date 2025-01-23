@@ -1,4 +1,4 @@
-﻿namespace Lab_1
+﻿namespace Lab5
 {
     public enum Operation
     {

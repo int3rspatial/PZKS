@@ -1,4 +1,7 @@
-﻿namespace Lab_1
+﻿using Lab1;
+using Lab5;
+
+namespace Lab2
 {
     public class TreeNode
     {

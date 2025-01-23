@@ -1,6 +1,6 @@
 ﻿using Python.Runtime;
 
-namespace Lab_1
+namespace Lab3
 {
     public class PythonRuntimeControler
     {
@@ -16,7 +16,7 @@ namespace Lab_1
 
             using (Py.GIL())
             {
-                var pythonScript = Py.Import("expand");
+                var pythonScript = Py.Import(@"Lab2\expand.py");
                 var expr = new PyString(checkedExpression);
                 var result = pythonScript.InvokeMethod("expand_expr", new PyObject[] { expr }).ToString();
                 expandedExpression = result ?? "";
@@ -45,7 +45,7 @@ namespace Lab_1
             string expandedExpression = "";
             using (Py.GIL())
             {
-                var pythonScript = Py.Import("lab3_scripts");
+                var pythonScript = Py.Import(@"Lab3\lab3_scripts.py");
                 var expr = new PyString(expression);
                 var result = pythonScript.InvokeMethod(invokeMethod, new PyObject[] { expr }).ToString();
                 expandedExpression = result ?? "";

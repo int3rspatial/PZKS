@@ -1,4 +1,8 @@
-﻿using Lab_1;
+﻿using Lab1;
+using Lab2;
+using Lab3;
+using Lab4;
+using Lab5;
 
 internal class Program
 {

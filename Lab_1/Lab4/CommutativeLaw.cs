@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using Lab1;
 
-namespace Lab_1
+namespace Lab4
 {
     public static class CommutativeLaw
     {

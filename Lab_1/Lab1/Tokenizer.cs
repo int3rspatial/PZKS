@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Lab_1
+namespace Lab1
 {
     public class Tokenizer
     {

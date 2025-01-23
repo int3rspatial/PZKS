@@ -1,4 +1,6 @@
-﻿namespace Lab_1
+﻿using Lab2;
+
+namespace Lab5
 {
     public static class GanttChart
     {
