@@ -16,9 +16,11 @@
   <ItemGroup>
     <None Update="Lab2\expand.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>expand.py</TargetPath>
     </None>
     <None Update="Lab3\lab3_scripts.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <TargetPath>lab3_scripts.py</TargetPath>
     </None>
   </ItemGroup>
 
