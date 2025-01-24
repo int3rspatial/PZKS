@@ -3,13 +3,13 @@ using Lab2;
 
 namespace Lab3
 {
-    internal enum StepType
-    {
-        Original, Expand, Apart, Simplify, SeparateVars, Condense, ApartSepvarsTogether, Collect
-    }
-
     public static class AssociativeLaw
     {
+        private enum StepType
+        {
+            Original, Expand, Apart, Simplify, SeparateVars, Condense, ApartSepvarsTogether, Collect
+        }
+
         private static Tokenizer _tokenizer;
         private static Tree _tree;
         private static int _nodeQuantity;
@@ -28,7 +28,7 @@ namespace Lab3
 
             _mostCommonVars = new List<string>();
         }
-        public static (int, string) Associate(PythonRuntimeControler prc, string expression)
+        public static string Associate(PythonRuntimeControler prc, string expression)
         {
             List<StepType> steps = new List<StepType>()
             {
@@ -125,7 +125,7 @@ namespace Lab3
             _bestExpression = _bestExpression.Replace("**", "^");
             Console.Write("Result --> {0}\n", _bestExpression);
 
-            return (_nodeQuantity, _bestExpression);
+            return _bestExpression;
         }
 
         private static void TokenizeAndBuildTree(string expression)

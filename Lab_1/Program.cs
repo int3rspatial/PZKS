@@ -54,7 +54,7 @@ internal class Program
         tree.PrintTree(tree.RootNode);
 
         //_______________ Lab 3 _______________
-        (int nodes, string expr) = AssociativeLaw.Associate(prc, checkedExpression);
+        string associativeLawExpr = AssociativeLaw.Associate(prc, checkedExpression);
 
         //_______________ Lab 4 _______________
         List<string> commutativeResults = new List<string>();
@@ -66,9 +66,9 @@ internal class Program
         GanttChart.CreateChart(tree.OperationTree(), true);
 
         //_______________ Lab 6 _______________
-        tokenizer.TokenizeExpandedExpression(expr);
+        tokenizer.TokenizeExpandedExpression(associativeLawExpr);
         tree.CreateTree(tokenizer.Tokens);
-        Console.WriteLine("\nAssociative Law for Gantt Chart --> {0}", expr);
+        Console.WriteLine("\nAssociative Law for Gantt Chart --> {0}", associativeLawExpr);
         GanttChart.CreateChart(tree.OperationTree());
 
         Console.WriteLine("\n >> Gantt charts for commutative law <<\n");
