@@ -9,6 +9,7 @@ namespace Lab1
     {
         private List<Token> _tokens;
         private List<Error> _errors;
+        private string _initialExpression;
 
         private Regex _operationSymbolsRegex;
         private Regex _varRegex;
@@ -28,6 +29,7 @@ namespace Lab1
         {
             _tokens = new List<Token>();
             _errors = new List<Error>();
+            _initialExpression = string.Empty;
 
             _operationSymbolsRegex = new Regex("[()+*/-]");
             _varRegex = new Regex("[a-zA-Z_]");
@@ -38,7 +40,10 @@ namespace Lab1
         {
             _tokens.Clear();
             _errors.Clear();
+
             expression = expression.Replace(" ", "");
+            _initialExpression = expression;
+
             for (int i = 0; i < expression.Length; i++)
             {
                 string exprSymBuf = expression[i].ToString();
@@ -196,7 +201,7 @@ namespace Lab1
             }
         }
 
-        public List<Error> CheckForErrors()
+        public void CheckForErrors()
         {
             int position = 0;
             List<string> brackets = new List<string>();
@@ -408,8 +413,49 @@ namespace Lab1
             }
 
             _errors = _errors.OrderBy(x => x.Position).ToList();
+        }
 
-            return _errors;
+        public void ShowErrors()
+        {
+            if (_errors.Count > 0)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("\nError list:");
+                Console.BackgroundColor = ConsoleColor.Black;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Number of _errors: {0}", _errors.Count);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                foreach (var item in _errors)
+                {
+                    if (item.Position != -1)
+                    {
+                        Console.WriteLine("\n----------------------------------------");
+                        Console.WriteLine(_initialExpression);
+
+                        (int _, int top) = Console.GetCursorPosition();
+                        Console.SetCursorPosition(item.Position, top);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("^");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        Console.WriteLine(item.ToString());
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("--> {0}", item.ToString());
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nExpression successfully passed syntax validation");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         public string TokensToString()

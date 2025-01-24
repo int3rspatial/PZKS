@@ -20,33 +20,36 @@ internal class Program
 
         Tokenizer tokenizer = new Tokenizer();
         tokenizer.Tokenize(expression);
-        List<Error> errors = tokenizer.CheckForErrors();
-
         //tokenizer.PrintTokens();
 
-        ShowErrors(errors, expression);
-        if(errors.Count > 0) { prc.Shutdown(); return; }
-
-        //_______________ Lab 2 _______________
-
-        string checkedExpression = tokenizer.TokensToString();
-        string expandedExpression = prc.ExpandExpression(checkedExpression);
-
-        expandedExpression = expandedExpression.Replace(" ", "");
-        tokenizer.TokenizeExpandedExpression(checkedExpression); // <-- checked
+        tokenizer.CheckForErrors();
+        tokenizer.ShowErrors();
 
         if (tokenizer.Errors.Count > 0)
         {
-            ShowErrors(tokenizer.Errors, expandedExpression);
             prc.Shutdown();
             return;
         }
 
-        //Console.WriteLine("\nExpanded expression --> {0}\n", tokenizer.TokensToString());
-        Console.WriteLine("\nOriginal expression --> {0}\n", tokenizer.TokensToString());
+        //_______________ Lab 2 _______________
+        string checkedExpression = tokenizer.TokensToString();
+        string expandedExpression = prc.ExpandExpression(checkedExpression);
+
+        tokenizer.TokenizeExpandedExpression(expandedExpression);
+        //tokenizer.TokenizeExpandedExpression(checkedExpression); // <-- checked expr, for lab 6
+
+        if (tokenizer.Errors.Count > 0)
+        {
+            tokenizer.ShowErrors();
+            prc.Shutdown();
+            return;
+        }
+
+        Console.WriteLine("\nExpanded expression --> {0}\n", tokenizer.TokensToString());
+        //Console.WriteLine("\nOriginal expression --> {0}\n", tokenizer.TokensToString()); // <-- for lab 6
 
         Tree tree = new Tree();
-        tree.CreateTree(tokenizer.Tokens); // <-- checked
+        tree.CreateTree(tokenizer.Tokens);
         Console.WriteLine("Expression tree:\n");
         tree.PrintTree(tree.RootNode);
 
@@ -79,48 +82,5 @@ internal class Program
         }
 
         prc.Shutdown();
-    }
-
-    public static void ShowErrors(List<Error> errors, string expression)
-    {
-        if (errors.Count > 0)
-        {
-            Console.BackgroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("\nError list:");
-            Console.BackgroundColor = ConsoleColor.Black;
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Number of errors: {0}", errors.Count);
-            Console.ForegroundColor = ConsoleColor.White;
-
-            foreach (var item in errors)
-            {
-                if (item.Position != -1)
-                {
-                    Console.WriteLine("\n----------------------------------------");
-                    Console.WriteLine(expression);
-
-                    (int left, int top) = Console.GetCursorPosition();
-                    Console.SetCursorPosition(item.Position, top);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("^");
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.WriteLine(item.ToString());
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("--> {0}", item.ToString());
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-            }
-        }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("\nExpression successfully passed syntax validation");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
     }
 }

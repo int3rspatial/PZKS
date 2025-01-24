@@ -13,6 +13,7 @@
 
         public override string ToString()
         {
+            //for error without specific position
             if (Position == -1)
             {
                 return $"{Message}";
