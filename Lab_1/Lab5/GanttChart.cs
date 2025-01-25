@@ -94,23 +94,11 @@ namespace Lab5
                 if (_operationOrder[i].NodeLevel == _operationOrder[i - 1].NodeLevel)
                 {
                     int lastWrite = LastChildrenWrite(_operationOrder[i]);
-                    if (lastWrite == _firstLayer.Count - 1)
+
+                    if (lastWrite == _firstLayer.Count - 1 || lastWrite == _firstLayer.Count)
                     {
                         _firstLayer.AddRange(Enumerable.Range(0, _operationOrder[i - 1].OperationCost)
                             .Select(x => _naSymbol).ToList());
-
-                        SimpleAddition(i, _operationOrder[i]);
-                    }
-                    else if (lastWrite == _firstLayer.Count)
-                    {
-                        _firstLayer.AddRange(Enumerable.Range(0, _operationOrder[i - 1].OperationCost)
-                            .Select(x => _naSymbol).ToList());
-
-                        //if (!_memoryReads.TryGetValue(_firstLayer.Count - 1, out _))
-                        //{
-                        //_firstLayer.Add($"{i}#");
-                        //_secondLayer.Add($"{i}#");
-                        //}
 
                         SimpleAddition(i, _operationOrder[i]);
                     }
