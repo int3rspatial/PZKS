@@ -7,42 +7,7 @@ namespace Lab4
     {
         public static void Commutate(List<Token> tokens, ref List<string> result)
         {
-            if (tokens[0].TokenType != TokenType.UnaryOpVariable ||
-                tokens[0].TokenType != TokenType.UnaryOpConstant)
-            {
-                tokens.Insert(0, new Token(TokenType.AddSubtractOperation, "+"));
-            }
-
-            List<Token> subExpressions = new List<Token>();
-            StringBuilder sb = new StringBuilder("");
-            for (int i = 0; i < tokens.Count; i++)
-            {
-                if (tokens[i].TokenType == TokenType.AddSubtractOperation)
-                {
-                    sb.Append(tokens[i].Value);
-
-                    int j = i + 1, brackets = 0;
-                    while (tokens[j].TokenType != TokenType.AddSubtractOperation || brackets != 0)
-                    {
-                        sb.Append(tokens[j].Value);
-
-                        if (tokens[j].TokenType == TokenType.OpeningBracket)
-                            brackets++;
-                        else if (tokens[j].TokenType == TokenType.ClosingBracket)
-                            brackets--;
-
-                        if (j == tokens.Count - 1)
-                            break;
-
-                        j++;
-                    }
-
-                    subExpressions.Add(new Token(TokenType.SubExpression, sb.ToString()));
-                    sb.Clear();
-                    i = j - 1;
-                }
-            }
-            tokens.RemoveAt(0);
+            List<Token> subExpressions = DivideIntoSubExpressions(tokens);
 
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n >>> Commutative transformations <<<");
@@ -80,7 +45,7 @@ namespace Lab4
             if (numberOfPermutations > 25)
                 return;
 
-            sb.Clear();
+            StringBuilder sb = new StringBuilder();
 
             List<string> variants = new List<string>();
             var permutationsList = Permute(subExpressions);
@@ -107,7 +72,48 @@ namespace Lab4
 
             result = variants;
         }
+        private static List<Token> DivideIntoSubExpressions(List<Token> tokens)
+        {
+            if (tokens[0].TokenType != TokenType.UnaryOpVariable ||
+                tokens[0].TokenType != TokenType.UnaryOpConstant)
+            {
+                tokens.Insert(0, new Token(TokenType.AddSubtractOperation, "+"));
+            }
 
+            List<Token> subExpressions = [];
+            StringBuilder sb = new StringBuilder("");
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                if (tokens[i].TokenType == TokenType.AddSubtractOperation)
+                {
+                    sb.Append(tokens[i].Value);
+
+                    int j = i + 1, brackets = 0;
+                    while (tokens[j].TokenType != TokenType.AddSubtractOperation || brackets != 0)
+                    {
+                        sb.Append(tokens[j].Value);
+
+                        if (tokens[j].TokenType == TokenType.OpeningBracket)
+                            brackets++;
+                        else if (tokens[j].TokenType == TokenType.ClosingBracket)
+                            brackets--;
+
+                        if (j == tokens.Count - 1)
+                            break;
+
+                        j++;
+                    }
+
+                    subExpressions.Add(new Token(TokenType.SubExpression, sb.ToString()));
+                    sb.Clear();
+                    i = j - 1;
+                }
+            }
+
+            tokens.RemoveAt(0);
+
+            return subExpressions;
+        }
         public static IEnumerable<IEnumerable<T>> Permute<T>(this IEnumerable<T> sequence)
         {
             if (sequence == null)

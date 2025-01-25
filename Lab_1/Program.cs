@@ -57,7 +57,7 @@ internal class Program
         string associativeLawExpr = AssociativeLaw.Associate(prc, checkedExpression);
 
         //_______________ Lab 4 _______________
-        List<string> commutativeResults = new List<string>();
+        List<string> commutativeResults = [];
         tokenizer.Tokenize(checkedExpression);
         CommutativeLaw.Commutate(tokenizer.Tokens, ref commutativeResults);
 
